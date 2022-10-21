@@ -16,23 +16,23 @@ class FINFO:
 todoList = [
     FINFO(
         'Regular',
-        '../srcfonts/urw-base35/NimbusSans-Regular.otf',
-        '../srcfonts/morisawa-biz-ud-gothic/morisawa-biz-ud-gothic-fonts/fonts/ttf/BIZUDPGothic-Regular.ttf'
+        "../srcfonts/urw-core35-fonts/NimbusSans-Regular.otf",
+        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUPGothic-Regular.ttf"
     ),
     FINFO(
         'Bold',
-        '../srcfonts/urw-base35/NimbusSans-Bold.otf',
-        '../srcfonts/morisawa-biz-ud-gothic/morisawa-biz-ud-gothic-fonts/fonts/ttf/BIZUDPGothic-Bold.ttf'
+        "../srcfonts/urw-core35-fonts/NimbusSans-Bold.otf",
+        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDPGothic-Bold.ttf"
     ),
     FINFO(
         'Italic',
-        '../srcfonts/urw-base35/NimbusSans-Italic.otf',
-        '../srcfonts/morisawa-biz-ud-gothic/morisawa-biz-ud-gothic-fonts/fonts/ttf/BIZUDPGothic-Regular.ttf'
+        "../srcfonts/urw-core35-fonts/NimbusSans-Italic.otf",
+        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDPGothic-Regular.ttf"
     ),
     FINFO(
         'BoldItalic',
-        '../srcfonts/urw-base35/NimbusSans-BoldItalic.otf',
-        '../srcfonts/morisawa-biz-ud-gothic/morisawa-biz-ud-gothic-fonts/fonts/ttf/BIZUDPGothic-Bold.ttf'
+        "../srcfonts/urw-core35-fonts/NimbusSans-BoldItalic.otf",
+        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDPGothic-Bold.ttf"
     ),
 
 ]
@@ -54,7 +54,7 @@ def cpOS2(src, dest):
     # dest.os2_supxsize = src.os2_supxsize
     # dest.os2_supyoff = src.os2_supyoff
     # dest.os2_supysize = src.os2_supysize
-    # dest.os2_typoascent = src.os2_typoascent
+    dest.os2_typoascent = src.os2_typoascent
     # dest.os2_typoascent_add = src.os2_typoascent_add
     # dest.os2_typodescent = src.os2_typodescent
     # dest.os2_typodescent_add = src.os2_typodescent_add
@@ -72,8 +72,8 @@ def cpOS2(src, dest):
     dest.os2_windescent_add = src.os2_windescent_add
 
     dest.head_optimized_for_cleartype = src.head_optimized_for_cleartype
-    # dest.hhea_ascent = src.hhea_ascent
-    # dest.hhea_ascent_add = src.hhea_ascent_add
+    dest.hhea_ascent = src.hhea_ascent
+    dest.hhea_ascent_add = src.hhea_ascent_add
     # dest.hhea_descent = src.hhea_descent
     # dest.hhea_descent_add = src.hhea_descent_add
     dest.hhea_linegap = src.hhea_linegap
@@ -102,6 +102,12 @@ def font_merger(i: FINFO):
     base.familyname = fontName
     base.fontname = f'{fontName}-{i.weight}'
     base.fullname = f'{fontName}-{i.weight}'
+    base.fondname = f'{fontName}-{i.weight}'
+    # print(base.sfnt_names)
+    base.sfnt_names=(
+            ('English (US)', 'Fullname', f'{fontName}-{i.weight}'),
+            ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
+            )
     base.weight = i.weight
     base.generate(f'{fontName}-{i.weight}.ttf')
     return f'{fontName}-{i.weight}.ttf'
