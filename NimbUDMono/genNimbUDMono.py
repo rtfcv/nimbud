@@ -16,22 +16,22 @@ class FINFO:
 todoList = [
     FINFO(
         'Regular',
-        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Regular.ttf",
+        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Regular.otf",
         "../srcfonts/morisawa-biz-ud-mincho/fonts/ttf/BIZUDMincho-Regular.ttf"
     ),
     FINFO(
         'Bold',
-        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Bold.ttf",
+        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Bold.otf",
         "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Bold.ttf"
     ),
     FINFO(
         'Italic',
-        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Italic.ttf",
+        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Italic.otf",
         "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Regular.ttf"
     ),
     FINFO(
         'BoldItalic',
-        "../srcfonts/urw-core35-fonts/NimbusMonoPS-BoldItalic.ttf",
+        "../srcfonts/urw-core35-fonts/NimbusMonoPS-BoldItalic.otf",
         "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Bold.ttf"
     ),
 
@@ -56,8 +56,8 @@ def cpOS2(src, dest):
     dest.os2_supysize = src.os2_supysize
     dest.os2_typoascent = src.os2_typoascent
     dest.os2_typoascent_add = src.os2_typoascent_add
-    dest.os2_typodescent = src.os2_typodescent
-    dest.os2_typodescent_add = src.os2_typodescent_add
+    # dest.os2_typodescent = src.os2_typodescent
+    # dest.os2_typodescent_add = src.os2_typodescent_add
     dest.os2_typolinegap = src.os2_typolinegap
     dest.os2_use_typo_metrics = src.os2_use_typo_metrics
     dest.os2_unicoderanges = src.os2_unicoderanges
@@ -68,13 +68,13 @@ def cpOS2(src, dest):
     dest.os2_width = src.os2_width
     dest.os2_winascent = src.os2_winascent
     dest.os2_winascent_add = src.os2_winascent_add
-    dest.os2_windescent = src.os2_windescent
-    dest.os2_windescent_add = src.os2_windescent_add
+    # dest.os2_windescent = src.os2_windescent
+    # dest.os2_windescent_add = src.os2_windescent_add
 
     dest.head_optimized_for_cleartype = src.head_optimized_for_cleartype
     dest.hhea_ascent = src.hhea_ascent
     dest.hhea_ascent_add = src.hhea_ascent_add
-    dest.hhea_descent = src.hhea_descent
+    # dest.hhea_descent = src.hhea_descent
     dest.hhea_descent_add = src.hhea_descent_add
     dest.hhea_linegap = src.hhea_linegap
     return dest
@@ -104,7 +104,7 @@ def font_merger(i: FINFO):
     for g in base:
         if base[g].isWorthOutputting():
             __origwid = base[g].width
-            base[g].width = int(__origwid/altwid)*altwid
+            base[g].width = int(__origwid/basewid*altwid)
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
 
@@ -125,14 +125,19 @@ def font_merger(i: FINFO):
 
     # fix metadata
     base = cpOS2(src=alt, dest=base)
-    # base.hhea height
 
     base.familyname = fontName
     base.fontname = f'{fontName}-{i.weight}'
     base.fullname = f'{fontName}-{i.weight}'
     base.fondname = f'{fontName}-{i.weight}'
+    # print(base.sfnt_names)
+    base.sfnt_names=(
+            ('English (US)', 'Fullname', f'{fontName}-{i.weight}'),
+            ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
+            )
     base.weight = i.weight
     base.generate(f'{fontName}-{i.weight}.ttf')
+    return f'{fontName}-{i.weight}.ttf'
 
 
 future_list = []
