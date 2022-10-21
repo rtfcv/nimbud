@@ -40,7 +40,7 @@ todoList = [
 
 def cpOS2(src, dest):
     dest.os2_codepages = src.os2_codepages
-    dest.os2_family_class = src.os2_family_class
+    # dest.os2_family_class = src.os2_family_class
     dest.os2_fstype = src.os2_fstype
     dest.os2_stylemap = src.os2_stylemap
     dest.os2_panose = src.os2_panose
@@ -75,7 +75,7 @@ def cpOS2(src, dest):
     dest.hhea_ascent = src.hhea_ascent
     dest.hhea_ascent_add = src.hhea_ascent_add
     # dest.hhea_descent = src.hhea_descent
-    dest.hhea_descent_add = src.hhea_descent_add
+    # dest.hhea_descent_add = src.hhea_descent_add
     dest.hhea_linegap = src.hhea_linegap
     return dest
 
@@ -140,7 +140,7 @@ def font_merger(i: FINFO):
             ('English (US)', 'Fullname', f'{fontName}-{i.weight}'),
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
-    base.weight = i.weight
+    # base.weight = i.weight
     base.generate(f'{fontName}-{i.weight}.ttf')
     return f'{fontName}-{i.weight}.ttf'
 

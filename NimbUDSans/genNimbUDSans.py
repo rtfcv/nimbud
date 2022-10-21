@@ -55,7 +55,7 @@ def cpOS2(src, dest):
     # dest.os2_supyoff = src.os2_supyoff
     # dest.os2_supysize = src.os2_supysize
     dest.os2_typoascent = src.os2_typoascent
-    # dest.os2_typoascent_add = src.os2_typoascent_add
+    dest.os2_typoascent_add = src.os2_typoascent_add
     # dest.os2_typodescent = src.os2_typodescent
     # dest.os2_typodescent_add = src.os2_typodescent_add
     dest.os2_typolinegap = src.os2_typolinegap
@@ -68,8 +68,8 @@ def cpOS2(src, dest):
     dest.os2_width = src.os2_width
     dest.os2_winascent = src.os2_winascent
     dest.os2_winascent_add = src.os2_winascent_add
-    dest.os2_windescent = src.os2_windescent
-    dest.os2_windescent_add = src.os2_windescent_add
+    # dest.os2_windescent = src.os2_windescent
+    # dest.os2_windescent_add = src.os2_windescent_add
 
     dest.head_optimized_for_cleartype = src.head_optimized_for_cleartype
     dest.hhea_ascent = src.hhea_ascent
@@ -89,6 +89,7 @@ def font_merger(i: FINFO):
     base: ff.font = ff.open(i.baseFont)
     print(f'base font is: {base["A"].width}x{base["A"].vwidth}')
     print(f'em for base font is: {base.em}')
+    print(f'{i.baseFont} is {base.weight}-----------------------------------------------------------------')
 
     base.em = alt.em    # resize base to fit alt
     base.design_size = alt.design_size
@@ -108,7 +109,7 @@ def font_merger(i: FINFO):
             ('English (US)', 'Fullname', f'{fontName}-{i.weight}'),
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
-    base.weight = i.weight
+    # base.weight = i.weight
     base.generate(f'{fontName}-{i.weight}.ttf')
     return f'{fontName}-{i.weight}.ttf'
 

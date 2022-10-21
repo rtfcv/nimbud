@@ -40,7 +40,7 @@ todoList = [
 
 def cpOS2(src, dest):
     dest.os2_codepages = src.os2_codepages
-    dest.os2_family_class = src.os2_family_class
+    # dest.os2_family_class = src.os2_family_class
     dest.os2_fstype = src.os2_fstype
     dest.os2_stylemap = src.os2_stylemap
     dest.os2_panose = src.os2_panose
@@ -63,8 +63,8 @@ def cpOS2(src, dest):
     dest.os2_unicoderanges = src.os2_unicoderanges
     dest.os2_vendor = src.os2_vendor
     dest.os2_version = src.os2_version
-    dest.os2_weight = src.os2_weight
-    dest.os2_weight_width_slope_only = src.os2_weight_width_slope_only
+    # dest.os2_weight = src.os2_weight
+    # dest.os2_weight_width_slope_only = src.os2_weight_width_slope_only
     dest.os2_width = src.os2_width
     dest.os2_winascent = src.os2_winascent
     dest.os2_winascent_add = src.os2_winascent_add
@@ -75,7 +75,7 @@ def cpOS2(src, dest):
     dest.hhea_ascent = src.hhea_ascent
     dest.hhea_ascent_add = src.hhea_ascent_add
     # dest.hhea_descent = src.hhea_descent
-    dest.hhea_descent_add = src.hhea_descent_add
+    # dest.hhea_descent_add = src.hhea_descent_add
     dest.hhea_linegap = src.hhea_linegap
     return dest
 
@@ -89,6 +89,7 @@ def font_merger(i: FINFO):
     base: ff.font = ff.open(i.baseFont)
     print(f'base font is: {base["A"].width}x{base["A"].vwidth}')
     print(f'em for base font is: {base.em}')
+    print(f'{i.baseFont} is {base.weight}-----------------------------------------------------------------')
 
     base.em = alt.em
     base.design_size = alt.design_size
@@ -139,7 +140,7 @@ def font_merger(i: FINFO):
             ('English (US)', 'Fullname', f'{fontName}-{i.weight}'),
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
-    base.weight = i.weight
+    # base.weight = i.weight
     base.generate(f'{fontName}-{i.weight}.ttf')
     return f'{fontName}-{i.weight}.ttf'
 
