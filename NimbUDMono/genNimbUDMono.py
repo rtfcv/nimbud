@@ -16,23 +16,23 @@ class FINFO:
 todoList = [
     FINFO(
         'Regular',
-        "/usr/share/fonts/opentype/urw-base35/NimbusMonoPS-Regular.otf",
-        "../morisawa-biz-ud-mincho/morisawa-biz-ud-mincho-fonts/fonts/ttf/BIZUDMincho-Regular.ttf"
+        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Regular.ttf",
+        "../srcfonts/morisawa-biz-ud-mincho/fonts/ttf/BIZUDMincho-Regular.ttf"
     ),
     FINFO(
         'Bold',
-        "/usr/share/fonts/opentype/urw-base35/NimbusMonoPS-Bold.otf",
-        "../morisawa-biz-ud-gothic/morisawa-biz-ud-gothic-fonts/fonts/ttf/BIZUDGothic-Bold.ttf"
+        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Bold.ttf",
+        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Bold.ttf"
     ),
     FINFO(
         'Italic',
-        "/usr/share/fonts/opentype/urw-base35/NimbusMonoPS-Italic.otf",
-        "../morisawa-biz-ud-gothic/morisawa-biz-ud-gothic-fonts/fonts/ttf/BIZUDGothic-Regular.ttf"
+        "../srcfonts/urw-core35-fonts/NimbusMonoPS-Italic.ttf",
+        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Regular.ttf"
     ),
     FINFO(
         'BoldItalic',
-        "/usr/share/fonts/opentype/urw-base35/NimbusMonoPS-BoldItalic.otf",
-        "../morisawa-biz-ud-gothic/morisawa-biz-ud-gothic-fonts/fonts/ttf/BIZUDGothic-Bold.ttf"
+        "../srcfonts/urw-core35-fonts/NimbusMonoPS-BoldItalic.ttf",
+        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Bold.ttf"
     ),
 
 ]
@@ -103,7 +103,8 @@ def font_merger(i: FINFO):
 
     for g in base:
         if base[g].isWorthOutputting():
-            base[g].width = altwid
+            __origwid = base[g].width
+            base[g].width = int(__origwid/altwid)*altwid
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
 
@@ -129,6 +130,7 @@ def font_merger(i: FINFO):
     base.familyname = fontName
     base.fontname = f'{fontName}-{i.weight}'
     base.fullname = f'{fontName}-{i.weight}'
+    base.fondname = f'{fontName}-{i.weight}'
     base.weight = i.weight
     base.generate(f'{fontName}-{i.weight}.ttf')
 
