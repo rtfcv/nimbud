@@ -63,8 +63,8 @@ def cpOS2(src, dest):
     dest.os2_unicoderanges = src.os2_unicoderanges
     dest.os2_vendor = src.os2_vendor
     dest.os2_version = src.os2_version
-    dest.os2_weight = src.os2_weight
-    dest.os2_weight_width_slope_only = src.os2_weight_width_slope_only
+    # dest.os2_weight = src.os2_weight
+    # dest.os2_weight_width_slope_only = src.os2_weight_width_slope_only
     dest.os2_width = src.os2_width
     dest.os2_winascent = src.os2_winascent
     dest.os2_winascent_add = src.os2_winascent_add
@@ -89,6 +89,7 @@ def font_merger(i: FINFO):
     base: ff.font = ff.open(i.baseFont)
     print(f'base font is: {base["A"].width}x{base["A"].vwidth}')
     print(f'em for base font is: {base.em}')
+    print(f'{i.baseFont} is {base.weight}-----------------------------------------------------------------')
 
     base.em = alt.em
     base.design_size = alt.design_size
@@ -122,6 +123,10 @@ def font_merger(i: FINFO):
     #         else:
     #             base[g].width = 2*newWid
     # list(map(convBase, base))
+    # base.addLookup('ligatures', 'gsub_ligature', 'ignore_ligatures', [['liga', [['latn', ['dflt']]]]])
+    print(base['ff'].glyphclass)
+
+    list(map(base.removeGlyph, ('fi','ff','fl','ffi','ffl')))
 
     # fix metadata
     base = cpOS2(src=alt, dest=base)

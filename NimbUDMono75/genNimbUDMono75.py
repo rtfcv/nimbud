@@ -122,6 +122,10 @@ def font_merger(i: FINFO):
             else:
                 base[g].width = 2*newWid
     list(map(convBase, base))
+    # base.addLookup('ligatures', 'gsub_ligature', 'ignore_ligatures', [['liga', [['latn', ['dflt']]]]])
+    print(base['ff'].glyphclass)
+
+    list(map(base.removeGlyph, ('fi','ff','fl','ffi','ffl')))
 
     # fix metadata
     base = cpOS2(src=alt, dest=base)
