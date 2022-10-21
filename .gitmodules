@@ -1,0 +1,12 @@
+[submodule "srcfonts/urw-core35-fonts"]
+	path = srcfonts/urw-core35-fonts
+	url = git://git.ghostscript.com/urw-core35-fonts.git
+	branch = master
+[submodule "srcfonts/morisawa-biz-ud-mincho"]
+	path = srcfonts/morisawa-biz-ud-mincho
+	url = https://github.com/googlefonts/morisawa-biz-ud-mincho
+	branch = main
+[submodule "srcfonts/morisawa-biz-ud-gothic"]
+	path = srcfonts/morisawa-biz-ud-gothic
+	url = https://github.com/googlefonts/morisawa-biz-ud-gothic.git
+	branch = main
