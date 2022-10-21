@@ -17,7 +17,7 @@ todoList = [
     FINFO(
         'Regular',
         "../srcfonts/urw-core35-fonts/NimbusSans-Regular.otf",
-        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUPGothic-Regular.ttf"
+        "../srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDPGothic-Regular.ttf"
     ),
     FINFO(
         'Bold',
