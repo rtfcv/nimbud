@@ -30,10 +30,10 @@ srcfonts/morisawa-biz-ud-mincho/fonts/ttf/BIZUDPMincho-Regular.ttf:
 
 patcher/font-patcher:
 	mkdir -p patcher
-	cd patcher && rm -rf ./* && wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip
+	cd patcher && rm -rf ./* && wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip && unzip FontPatcher.zip
 
-nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf:
+nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
 	ls fonts/* | grep 'NimbUDMono-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
 
-nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf:
+nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
 	ls fonts/* | grep 'NimbUDMono75-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
