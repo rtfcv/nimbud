@@ -130,6 +130,7 @@ def font_merger(i: FINFO):
 
     # fix metadata
     base = cpOS2(src=alt, dest=base)
+    base.os2_panose = (2, 0, 5, 3, 0, 0, 0, 0, 0, 0)
 
     base.familyname = fontName
     base.fontname = f'{fontName}-{i.weight}'
