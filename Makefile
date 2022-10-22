@@ -1,5 +1,7 @@
 all: fonts/NimbUDMono-Regular.ttf fonts/NimbUDMono75-Regular.ttf fonts/NimbUDRoman-Regular.ttf fonts/NimbUDSans-Regular.ttf
 
+nerdfonts: nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf
+
 NimbUDMono/NimbUDMono-Regular.ttf: NimbUDMono/genNimbUDMono.py
 
 NimbUDMono75/NimbUDMono75-Regular.ttf: NimbUDMono75/genNimbUDMono75.py
@@ -25,3 +27,13 @@ srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Regular.ttf:
 
 srcfonts/morisawa-biz-ud-mincho/fonts/ttf/BIZUDPMincho-Regular.ttf:
 	git submodule update --init --depth 1 --remote  --merge --jobs 4
+
+patcher/font-patcher:
+	mkdir -p patcher
+	cd patcher && rm -rf ./* && wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip
+
+nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf:
+	ls fonts/* | grep 'NimbUDMono-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
+
+nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf:
+	ls fonts/* | grep 'NimbUDMono75-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
