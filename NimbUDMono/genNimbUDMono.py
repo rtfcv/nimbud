@@ -141,8 +141,8 @@ def font_merger(i: FINFO):
 
     base.familyname = fontName
     base.fontname = f'{fontName}-{i.weight}'
-    base.fullname = f'{fontName}-{i.weight}'
-    base.fondname = f'{fontName}-{i.weight}'
+    base.fullname = f'{fontName} {i.ttfweight}'
+    base.fondname = f'{fontName} {i.ttfweight}'
     print(base.sfnt_names)
     base.sfnt_names=(
             ('English (US)', 'Fullname', f'{fontName} {i.ttfweight}'),
