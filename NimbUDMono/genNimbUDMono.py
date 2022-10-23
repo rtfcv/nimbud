@@ -154,13 +154,13 @@ def font_merger(i: FINFO):
     base.generate(f'{fontName}-{i.weight}.ttf')
     return f'{fontName}-{i.weight}.ttf'
 
-font_merger(todoList[-1])
+# font_merger(todoList[-1])
 
-# future_list = []
-# with futures.ThreadPoolExecutor(max_workers=len(todoList)) as executor:
-#     for i in todoList:
-#         future = executor.submit(font_merger, i=i)
-#         future_list.append(future)
-#     _ = futures.as_completed(fs=future_list)
-# 
-# print(f'completed. {future_list}')
+future_list = []
+with futures.ThreadPoolExecutor(max_workers=len(todoList)) as executor:
+    for i in todoList:
+        future = executor.submit(font_merger, i=i)
+        future_list.append(future)
+    _ = futures.as_completed(fs=future_list)
+
+print(f'completed. {future_list}')

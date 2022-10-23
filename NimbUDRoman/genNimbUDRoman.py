@@ -11,6 +11,12 @@ class FINFO:
         self.weight = weight
         self.baseFont = baseFont
         self.secondFont = secondFont
+        self.ttfweight = weight
+        if weight=='BoldItalic':
+            self.ttfweight='Bold Italic'
+
+
+panoseWeight = dict(Regular=5,Italic=5, Bold=8, BoldItalic=8)
 
 
 todoList = [
@@ -40,7 +46,7 @@ todoList = [
 
 def cpOS2(src, dest):
     dest.os2_codepages = src.os2_codepages
-    dest.os2_family_class = src.os2_family_class
+    # dest.os2_family_class = src.os2_family_class
     # # dest.os2_fstype = src.os2_fstype
     # dest.os2_stylemap = src.os2_stylemap
     # # dest.os2_panose = src.os2_panose
@@ -103,16 +109,19 @@ def font_merger(i: FINFO):
     base.familyname = fontName
     base.fontname = f'{fontName}-{i.weight}'
     base.fullname = f'{fontName}-{i.weight}'
-    base.fondname = f'{fontName}-{i.weight}'
+    base.fondname = f'{fontName} {i.ttfweight}'
     # print(base.sfnt_names)
     base.sfnt_names=(
-            ('English (US)', 'Fullname', f'{fontName}-{i.weight}'),
+            ('English (US)', 'Fullname', f'{fontName} {i.ttfweight}'),
+            ('English (US)', 'Family', f'{fontName}'),
+            ('English (US)', 'SubFamily', f'{i.ttfweight}'),
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
     # base.weight = i.weight
     base.generate(f'{fontName}-{i.weight}.ttf')
     return f'{fontName}-{i.weight}.ttf'
 
+# font_merger(todoList[-1])
 
 future_list = []
 with futures.ThreadPoolExecutor(max_workers=len(todoList)) as executor:
