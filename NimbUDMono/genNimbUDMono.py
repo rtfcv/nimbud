@@ -12,6 +12,12 @@ class FINFO:
         self.weight = weight
         self.baseFont = baseFont
         self.secondFont = secondFont
+        self.ttfweight = weight
+        if weight=='BoldItalic':
+            self.ttfweight='Bold Italic'
+
+
+panoseWeight = dict(Regular=5,Italic=5, Bold=8, BoldItalic=8)
 
 
 todoList = [
@@ -43,7 +49,7 @@ def cpOS2(src, dest):
     dest.os2_codepages = src.os2_codepages
     # dest.os2_family_class = src.os2_family_class
     dest.os2_fstype = src.os2_fstype
-    dest.os2_stylemap = src.os2_stylemap
+    # dest.os2_stylemap = src.os2_stylemap # Regular Bold etc.
     dest.os2_panose = src.os2_panose
     dest.os2_strikeypos = src.os2_strikeypos
     dest.os2_strikeysize = src.os2_strikeysize
@@ -112,46 +118,49 @@ def font_merger(i: FINFO):
 
     # merge fonts
     base.mergeFonts(alt)
-
-    # transform all glyphs
-    # newWid: int = int(0.75*altwid)
-    # base.nltransform(f'x*{newWid}/{altwid}', 'y')
-
-    # def convBase(g):
-    #     if base[g].isWorthOutputting():
-    #         if base[g].width == altwid:
-    #             base[g].width = newWid
-    #         else:
-    #             base[g].width = 2*newWid
-    # list(map(convBase, base))
-    # base.addLookup('ligatures', 'gsub_ligature', 'ignore_ligatures', [['liga', [['latn', ['dflt']]]]])
     print(base['ff'].glyphclass)
 
     list(map(base.removeGlyph, ('fi','ff','fl','ffi','ffl')))
 
     # fix metadata
     base = cpOS2(src=alt, dest=base)
-    base.os2_panose = (2, 0, 5, 3, 0, 0, 0, 0, 0, 0)
+    base.os2_version = 2 # setting this higher invokes bug in fontforge
+    base.os2_family_class = 2057  # SS Typewriter Gothic
+    base.os2_panose = (
+        2,  # Latin: Text and Display
+        11,  # Nomal Sans
+        panoseWeight[i.weight],
+        9,  # Monospaced
+        0,  # None
+        0,  # No Variation
+        0,  # Straight Arms/Wedge
+        0,
+        0,  # Standard/Trimmed
+        0,  # Ducking/Large
+    )
 
     base.familyname = fontName
     base.fontname = f'{fontName}-{i.weight}'
     base.fullname = f'{fontName}-{i.weight}'
     base.fondname = f'{fontName}-{i.weight}'
-    # print(base.sfnt_names)
+    print(base.sfnt_names)
     base.sfnt_names=(
-            ('English (US)', 'Fullname', f'{fontName}-{i.weight}'),
+            ('English (US)', 'Fullname', f'{fontName} {i.ttfweight}'),
+            ('English (US)', 'Family', f'{fontName}'),
+            ('English (US)', 'SubFamily', f'{i.ttfweight}'),
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
     # base.weight = i.weight
     base.generate(f'{fontName}-{i.weight}.ttf')
     return f'{fontName}-{i.weight}.ttf'
 
+font_merger(todoList[-1])
 
-future_list = []
-with futures.ThreadPoolExecutor(max_workers=len(todoList)) as executor:
-    for i in todoList:
-        future = executor.submit(font_merger, i=i)
-        future_list.append(future)
-    _ = futures.as_completed(fs=future_list)
-
-print(f'completed. {future_list}')
+# future_list = []
+# with futures.ThreadPoolExecutor(max_workers=len(todoList)) as executor:
+#     for i in todoList:
+#         future = executor.submit(font_merger, i=i)
+#         future_list.append(future)
+#     _ = futures.as_completed(fs=future_list)
+# 
+# print(f'completed. {future_list}')
