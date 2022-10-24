@@ -1,4 +1,4 @@
-all: fonts/NimbUDMono-Regular.ttf fonts/NimbUDMono75-Regular.ttf fonts/NimbUDRoman-Regular.ttf fonts/NimbUDSans-Regular.ttf
+all: fonts/NimbUDMono-Regular.ttf fonts/NimbUDMono75-Regular.ttf fonts/NimbUDRoman-Regular.ttf fonts/NimbUDSans-Regular.ttf fonts/NimbUDRomanHint-Regular.ttf
 
 nerdfonts: nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf
 
