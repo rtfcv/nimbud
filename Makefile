@@ -5,7 +5,7 @@ fonts:\
 	fonts/NimbUDRoman-Regular.ttf fonts/NimbUDSans-Regular.ttf\
 	fonts/NimbUDRomanHint-Regular.ttf
 
-nerdfonts:\
+nerdfonts: fonts\
 	nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf\
 	nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf
 
@@ -42,20 +42,20 @@ patcher/font-patcher:
 	cd patcher && rm -rf ./* && wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip && unzip FontPatcher.zip
 
 
-# build fonts
-%/%-Regular.ttf: \
-	srcfonts/urw-core35-fonts/NimbusRoman-Regular.otf\
-	srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Regular.ttf\
-	srcfonts/morisawa-biz-ud-mincho/fonts/ttf/BIZUDPMincho-Regular.ttf
-	cd $(@D) && python3 gen$(*F).py
-
-
 # copy fonts
 fonts/%-Regular.ttf: %/%-Regular.ttf
 	cp $(*F)/$(*F)-Regular.ttf fonts/
 	cp $(*F)/$(*F)-Bold.ttf fonts/
 	cp $(*F)/$(*F)-BoldItalic.ttf fonts/
 	cp $(*F)/$(*F)-Italic.ttf fonts/
+
+
+# build fonts
+%/%-Regular.ttf: \
+	srcfonts/urw-core35-fonts/NimbusRoman-Regular.otf\
+	srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Regular.ttf\
+	srcfonts/morisawa-biz-ud-mincho/fonts/ttf/BIZUDPMincho-Regular.ttf
+	cd $(@D) && python3 gen$(*F).py
 
 
 # patch fonts
