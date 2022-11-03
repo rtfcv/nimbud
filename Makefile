@@ -3,11 +3,13 @@ all: fonts nerdfonts
 fonts:\
 	fonts/NimbUDMono-Regular.ttf fonts/NimbUDMono75-Regular.ttf\
 	fonts/NimbUDRoman-Regular.ttf fonts/NimbUDSans-Regular.ttf\
-	fonts/NimbUDRomanHint-Regular.ttf
+	fonts/NimbUDRomanHint-Regular.ttf\
+	fonts/GoUDMono-Regular.ttf
 
 nerdfonts: fonts\
 	nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf\
-	nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf
+	nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf\
+	nerdfonts/Go\ UDMono\ Nerd\ Font\ Complete.ttf
 
 .PHONY: install
 install: fonts nerdfonts
@@ -26,15 +28,14 @@ NimbUDRomanHint/NimbUDRomanHint-Regular.ttf: NimbUDRomanHint/genNimbUDRomanHint.
 
 NimbUDSans/NimbUDSans-Regular.ttf: NimbUDSans/genNimbUDSans.py
 
+GoUDMono/GoUDMono-Regular.ttf: GoUDMono/genGoUDMono.py
+
 
 # remote sources
 srcfonts/urw-core35-fonts/NimbusRoman-Regular.otf:
 	git submodule update --init --depth 1 --remote  --merge --jobs 4
 
-srcfonts/morisawa-biz-ud-gothic/fonts/ttf/BIZUDGothic-Regular.ttf:
-	git submodule update --init --depth 1 --remote  --merge --jobs 4
-
-srcfonts/morisawa-biz-ud-mincho/fonts/ttf/BIZUDPMincho-Regular.ttf:
+srcfonts/%.ttf:
 	git submodule update --init --depth 1 --remote  --merge --jobs 4
 
 patcher/font-patcher:
@@ -64,3 +65,7 @@ nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
 
 nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
 	ls fonts/* | grep 'NimbUDMono75-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
+
+nerdfonts/Go\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
+	ls fonts/* | grep 'GoUDMono-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
+

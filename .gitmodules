@@ -10,3 +10,7 @@
 	path = srcfonts/morisawa-biz-ud-gothic
 	url = https://github.com/googlefonts/morisawa-biz-ud-gothic.git
 	branch = main
+[submodule "srcfonts/image"]
+	path = srcfonts/image
+	url = https://go.googlesource.com/image
+	branch = master
