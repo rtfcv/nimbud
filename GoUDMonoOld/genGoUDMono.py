@@ -99,39 +99,25 @@ def font_merger(i: FINFO):
     print(f'{i.baseFont} is {base.weight}-----------------------------------------------------------------')
     basewid = base['A'].width
 
-    # # base.em = int(base.em * altwid/basewid)+1
-    # # changing em of base font break everything for some reason
-    # alt.em = int(alt.em * basewid/altwid)
-    # base.design_size = alt.design_size
-    # altwid = alt['A'].width
-
-    # above still won work...
+    # base.em = int(base.em * altwid/basewid)+1
+    # changing em of base font break everything for some reason
     alt2: ff.font = ff.open(i.secondFont)
     alt2.em = int(alt.em * basewid/altwid)
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
-    print(f'alt font changed to: {alt["A"].width}x{alt["A"].vwidth}')
+    print(f'alt font is: {alt["A"].width}x{alt["A"].vwidth}')
     print(f'em for base changed to: {base.em}')
-    print(f'em for alt changed to: {alt.em}')
     basewid = base['A'].width
 
-    base.selection.all()
-    # base.nltransform(f'x*{altwid}/{basewid}', 'y')
-    # base.transform((altwid/basewid,0, 0, 1, 0, 0))
-
-    # for key in base:
-    #     # if key in bkey: continue
-    #     base[key].autoHint()
+    for key in base:
+        # if key in bkey: continue
+        base[key].autoHint()
 
     # resize everything
     for g in base:
         if base[g].isWorthOutputting():
             __origwid = base[g].width
-            if __origwid > 1.1*basewid:
-                scale = int(1/__origwid*2*basewid)
-                base[g].transform((scale, 0, 0, scale, 0, 0))
-                base[g].autoHint()
-                base[g].width = 2*basewid
+            base[g].width = int(__origwid/basewid*altwid)
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
 
@@ -143,8 +129,8 @@ def font_merger(i: FINFO):
     # list(map(base.removeGlyph, ('fi','ff','fl','ffi','ffl')))
 
     # fix metadata
-    base = cpOS2(src=alt2, dest=base)
-    base.os2_version = 2  # setting this higher invokes bug in fontforge
+    base = cpOS2(src=alt, dest=base)
+    base.os2_version = 2 # setting this higher invokes bug in fontforge
     base.os2_family_class = 2057  # SS Typewriter Gothic
     base.os2_panose = (
         2,  # Latin: Text and Display

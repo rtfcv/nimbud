@@ -4,7 +4,7 @@ from concurrent import futures
 
 scaleEm = "1000"
 
-fontName = "GoUDMono"
+fontName = "GoUDMono75"
 
 
 class FINFO:
@@ -61,8 +61,8 @@ def cpOS2(src, dest):
     # dest.os2_supxsize = src.os2_supxsize
     # dest.os2_supyoff = src.os2_supyoff
     # dest.os2_supysize = src.os2_supysize
-    dest.os2_typoascent = src.os2_typoascent
-    dest.os2_typoascent_add = src.os2_typoascent_add
+    # dest.os2_typoascent = src.os2_typoascent
+    # dest.os2_typoascent_add = src.os2_typoascent_add
     # dest.os2_typodescent = src.os2_typodescent
     # dest.os2_typodescent_add = src.os2_typodescent_add
     dest.os2_typolinegap = src.os2_typolinegap
@@ -79,8 +79,8 @@ def cpOS2(src, dest):
     # dest.os2_windescent_add = src.os2_windescent_add
 
     dest.head_optimized_for_cleartype = src.head_optimized_for_cleartype
-    dest.hhea_ascent = src.hhea_ascent
-    dest.hhea_ascent_add = src.hhea_ascent_add
+    # dest.hhea_ascent = src.hhea_ascent
+    # dest.hhea_ascent_add = src.hhea_ascent_add
     # dest.hhea_descent = src.hhea_descent
     # dest.hhea_descent_add = src.hhea_descent_add
     dest.hhea_linegap = src.hhea_linegap
@@ -137,6 +137,10 @@ def font_merger(i: FINFO):
 
     # merge fonts
     base.mergeFonts(alt)
+
+    # transform all glyphs
+    newWid: int = int(0.75*altwid)
+    base.transform((0.75,0, 0, 1, 0, 0))
 
     # remove ligatures
     # print(base['ff'].glyphclass)
