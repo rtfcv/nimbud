@@ -4,12 +4,13 @@ fonts:\
 	fonts/NimbUDMono-Regular.ttf fonts/NimbUDMono75-Regular.ttf\
 	fonts/NimbUDRoman-Regular.ttf fonts/NimbUDSans-Regular.ttf\
 	fonts/NimbUDRomanHint-Regular.ttf\
-	fonts/GoUDMono-Regular.ttf
+	fonts/GoUDMono-Regular.ttf fonts/GoUDMono75-Regular.ttf 
 
 nerdfonts: fonts\
 	nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf\
 	nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf\
-	nerdfonts/Go\ UDMono\ Nerd\ Font\ Complete.ttf
+	nerdfonts/Go\ UDMono\ Nerd\ Font\ Complete.ttf\
+	nerdfonts/Go\ UDMono75\ Nerd\ Font\ Complete.ttf
 
 .PHONY: install
 install: fonts nerdfonts
@@ -17,7 +18,7 @@ install: fonts nerdfonts
 	cp -r fonts ~/.local/share/fonts/numbudFonts/
 	cp -r nerdfonts ~/.local/share/fonts/numbudFonts/
 
-# specify fonts
+# specify fonts # do we need specific one of these
 NimbUDMono/NimbUDMono-Regular.ttf: NimbUDMono/genNimbUDMono.py
 
 NimbUDMono75/NimbUDMono75-Regular.ttf: NimbUDMono75/genNimbUDMono75.py
@@ -29,6 +30,8 @@ NimbUDRomanHint/NimbUDRomanHint-Regular.ttf: NimbUDRomanHint/genNimbUDRomanHint.
 NimbUDSans/NimbUDSans-Regular.ttf: NimbUDSans/genNimbUDSans.py
 
 GoUDMono/GoUDMono-Regular.ttf: GoUDMono/genGoUDMono.py
+
+GoUDMono75/GoUDMono75-Regular.ttf: GoUDMono75/genGoUDMono75.py
 
 
 # remote sources
@@ -60,12 +63,14 @@ fonts/%-Regular.ttf: %/%-Regular.ttf
 
 
 # patch fonts
-nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
+nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher fonts/NimbUDMono-Regular.ttf
 	ls fonts/* | grep 'NimbUDMono-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
 
-nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
+nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf: patcher/font-patcher fonts/NimbUDMono75-Regular.ttf
 	ls fonts/* | grep 'NimbUDMono75-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
 
-nerdfonts/Go\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
+nerdfonts/Go\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher fonts/GoUDMono-Regular.ttf
 	ls fonts/* | grep 'GoUDMono-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
 
+nerdfonts/Go\ UDMono75\ Nerd\ Font\ Complete.ttf: patcher/font-patcher fonts/GoUDMono75-Regular.ttf
+	ls fonts/* | grep 'GoUDMono75-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
