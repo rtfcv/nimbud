@@ -60,12 +60,12 @@ fonts/%-Regular.ttf: %/%-Regular.ttf
 
 
 # patch fonts
-nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
+nerdfonts/Nimb\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher fonts/NimbUDMono-Regular.ttf
 	ls fonts/* | grep 'NimbUDMono-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
 
-nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
+nerdfonts/Nimb\ UDMono75\ Nerd\ Font\ Complete.ttf: patcher/font-patcher fonts/NimbUDMono75-Regular.ttf
 	ls fonts/* | grep 'NimbUDMono75-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
 
-nerdfonts/Go\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher
+nerdfonts/Go\ UDMono\ Nerd\ Font\ Complete.ttf: patcher/font-patcher fonts/GoUDMono-Regular.ttf
 	ls fonts/* | grep 'GoUDMono-[a-zA-Z]*.ttf' | xargs -P10 -n1 fontforge patcher/font-patcher --complete --makegroups --outputdir nerdfonts
 
