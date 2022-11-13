@@ -4,7 +4,7 @@ from concurrent import futures
 
 scaleEm = "1000"
 
-fontName = "GoUDMono2"
+fontName = "GoUDMono75Alt"
 
 
 class FINFO:
@@ -61,8 +61,8 @@ def cpOS2(src, dest):
     # dest.os2_supxsize = src.os2_supxsize
     # dest.os2_supyoff = src.os2_supyoff
     # dest.os2_supysize = src.os2_supysize
-    dest.os2_typoascent = src.os2_typoascent
-    dest.os2_typoascent_add = src.os2_typoascent_add
+    # dest.os2_typoascent = src.os2_typoascent
+    # dest.os2_typoascent_add = src.os2_typoascent_add
     # dest.os2_typodescent = src.os2_typodescent
     # dest.os2_typodescent_add = src.os2_typodescent_add
     dest.os2_typolinegap = src.os2_typolinegap
@@ -79,8 +79,8 @@ def cpOS2(src, dest):
     # dest.os2_windescent_add = src.os2_windescent_add
 
     dest.head_optimized_for_cleartype = src.head_optimized_for_cleartype
-    dest.hhea_ascent = src.hhea_ascent
-    dest.hhea_ascent_add = src.hhea_ascent_add
+    # dest.hhea_ascent = src.hhea_ascent
+    # dest.hhea_ascent_add = src.hhea_ascent_add
     # dest.hhea_descent = src.hhea_descent
     # dest.hhea_descent_add = src.hhea_descent_add
     dest.hhea_linegap = src.hhea_linegap
@@ -99,16 +99,8 @@ def font_merger(i: FINFO):
     print(f'{i.baseFont} is {base.weight}-----------------------------------------------------------------')
     basewid = base['A'].width
 
-    # base.em = int(base.em * altwid/basewid)+1
+    base.em = int(base.em * altwid/basewid)+1
     # changing em of base font break everything for some reason
-    alt.em = int(alt.em * basewid/altwid)
-    base.design_size = alt.design_size
-    altwid = alt['A'].width
-
-    # changing alt em like above breaks alt bold font... why...
-    # this is workaround
-    alt2: ff.font = ff.open(i.secondFont)
-    alt2.em = int(alt2.em * basewid/altwid)
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
     print(f'alt font changed to: {alt["A"].width}x{alt["A"].vwidth}')
@@ -120,30 +112,35 @@ def font_merger(i: FINFO):
     # base.nltransform(f'x*{altwid}/{basewid}', 'y')
     # base.transform((altwid/basewid,0, 0, 1, 0, 0))
 
-    # for key in base:
-    #     # if key in bkey: continue
-    #     base[key].autoHint()
-
-    # # resize everything
-    # for g in base:
-    #     if base[g].isWorthOutputting():
-    #         __origwid = base[g].width
-    #         if __origwid > 1.1*basewid:
-    #             scale = int(1/__origwid*2*basewid)
-    #             base[g].transform((scale, 0, 0, scale, 0, 0))
+    # resize everything
+    for g in base:
+        if base[g].isWorthOutputting():
+            __origwid = base[g].width
+            if __origwid > 1.1*basewid:
+                scale = int(1/__origwid*2*basewid)
+                base[g].transform((scale, 0, 0, scale, 0, 0))
+                base[g].width = 2*basewid
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
+    bkey = list((key for key in base))
 
     # merge fonts
     base.mergeFonts(alt)
+
+    # transform all glyphs
+    newWid: int = int(0.75*altwid)
+    base.transform((0.75,0, 0, 1, 0, 0))
+
+    for g in bkey:
+        base[g].autoHint()
 
     # remove ligatures
     # print(base['ff'].glyphclass)
     # list(map(base.removeGlyph, ('fi','ff','fl','ffi','ffl')))
 
     # fix metadata
-    base = cpOS2(src=alt2, dest=base)
-    base.os2_version = 2 # setting this higher invokes bug in fontforge
+    base = cpOS2(src=alt, dest=base)
+    base.os2_version = 2  # setting this higher invokes bug in fontforge
     base.os2_family_class = 2057  # SS Typewriter Gothic
     base.os2_panose = (
         2,  # Latin: Text and Display
@@ -170,17 +167,20 @@ def font_merger(i: FINFO):
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
     # base.weight = i.weight
-    base.generate(f'{fontName}-{i.weight}.ttf')
+    base.generate(f'{fontName}-{i.weight}.ttf', flags=('no-hints',))
     return f'{fontName}-{i.weight}.ttf'
 
-# font_merger(todoList[1])
-# font_merger(todoList[1])
 
-future_list = []
-with futures.ThreadPoolExecutor(max_workers=len(todoList)) as executor:
-    for i in todoList:
-        future = executor.submit(font_merger, i=i)
-        future_list.append(future)
-    _ = futures.as_completed(fs=future_list)
+font_merger(todoList[0])
+font_merger(todoList[1])
+font_merger(todoList[2])
+font_merger(todoList[3])
 
-print(f'completed. {future_list}')
+# future_list = []
+# with futures.ThreadPoolExecutor(max_workers=len(todoList)) as executor:
+#     for i in todoList:
+#         future = executor.submit(font_merger, i=i)
+#         future_list.append(future)
+#     _ = futures.as_completed(fs=future_list)
+# 
+# print(f'completed. {future_list}')

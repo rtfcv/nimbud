@@ -119,10 +119,6 @@ def font_merger(i: FINFO):
     # base.nltransform(f'x*{altwid}/{basewid}', 'y')
     # base.transform((altwid/basewid,0, 0, 1, 0, 0))
 
-    # for key in base:
-    #     # if key in bkey: continue
-    #     base[key].autoHint()
-
     # resize everything
     for g in base:
         if base[g].isWorthOutputting():
@@ -130,7 +126,7 @@ def font_merger(i: FINFO):
             if __origwid > 1.1*basewid:
                 scale = int(1/__origwid*2*basewid)
                 base[g].transform((scale, 0, 0, scale, 0, 0))
-                base[g].autoHint()
+                # base[g].autoHint()
                 base[g].width = 2*basewid
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
@@ -175,7 +171,7 @@ def font_merger(i: FINFO):
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
     # base.weight = i.weight
-    base.generate(f'{fontName}-{i.weight}.ttf')
+    base.generate(f'{fontName}-{i.weight}.ttf', flags=('no-hints',))
     return f'{fontName}-{i.weight}.ttf'
 
 
