@@ -122,6 +122,7 @@ def font_merger(i: FINFO):
                 base[g].width = newWid
             else:
                 base[g].width = 2*newWid
+                base[g].autoHint()
     list(map(convBase, base))
     # base.addLookup('ligatures', 'gsub_ligature', 'ignore_ligatures', [['liga', [['latn', ['dflt']]]]])
     print(base['ff'].glyphclass)

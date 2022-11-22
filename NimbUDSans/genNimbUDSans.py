@@ -110,7 +110,8 @@ def font_merger(i: FINFO):
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
     # base.weight = i.weight
-    base.generate(f'{fontName}-{i.weight}.ttf')
+    # base.generate(f'{fontName}-{i.weight}.ttf')
+    base.generate(f'{fontName}-{i.weight}.ttf', flags=('no-hints',))
     return f'{fontName}-{i.weight}.ttf'
 
 

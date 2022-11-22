@@ -101,13 +101,13 @@ def font_merger(i: FINFO):
 
     # # base.em = int(base.em * altwid/basewid)+1
     # # changing em of base font break everything for some reason
-    # alt.em = int(alt.em * basewid/altwid)
+    alt.em = int(alt.em * basewid/altwid)
     # base.design_size = alt.design_size
     # altwid = alt['A'].width
 
     # above still won work...
-    alt2: ff.font = ff.open(i.secondFont)
-    alt2.em = int(alt.em * basewid/altwid)
+    # alt2: ff.font = ff.open(i.secondFont)
+    # alt2.em = int(alt.em * basewid/altwid)
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
     print(f'alt font changed to: {alt["A"].width}x{alt["A"].vwidth}')
@@ -130,7 +130,7 @@ def font_merger(i: FINFO):
             if __origwid > 1.1*basewid:
                 scale = int(1/__origwid*2*basewid)
                 base[g].transform((scale, 0, 0, scale, 0, 0))
-                base[g].autoHint()
+                # base[g].autoHint()
                 base[g].width = 2*basewid
 
     print(f'base font changed to: {base["A"].width}x{base["A"].vwidth}')
@@ -143,7 +143,7 @@ def font_merger(i: FINFO):
     # list(map(base.removeGlyph, ('fi','ff','fl','ffi','ffl')))
 
     # fix metadata
-    base = cpOS2(src=alt2, dest=base)
+    base = cpOS2(src=alt, dest=base)
     base.os2_version = 2  # setting this higher invokes bug in fontforge
     base.os2_family_class = 2057  # SS Typewriter Gothic
     base.os2_panose = (
@@ -171,7 +171,8 @@ def font_merger(i: FINFO):
             ('English (US)', 'UniqueID', f':{fontName}-{i.weight}:2022'),
             )
     # base.weight = i.weight
-    base.generate(f'{fontName}-{i.weight}.ttf')
+    base.generate(f'{fontName}-{i.weight}.ttf', flags=('no-hints',))
+    # base.generate(f'{fontName}-{i.weight}.ttf')
     return f'{fontName}-{i.weight}.ttf'
 
 
